@@ -1,44 +1,22 @@
 import React, { useReducer, useContext, useState } from 'react';
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { useStore } from '../store/store';
+import useAuth from '../useAuth';
 
-import Header from './Header';
-import Login from './Login';
-import Dashboard from './Dashboard';
+import LoggedIn from "./LoggedIn"
+import LoggedOut from "./LoggedOut"
+import { AppStateProvider } from "../context/app-state"
+import appReducer, { initialState } from "../appReducer"
 
 const App = () => {
-
-  return (
-    <div>
-      <BrowserRouter>
-        <div>
-          <Header />
-          <div className="container">
-            <div className="row">
-              <Route
-                exact
-                path="/login"
-                name="Login Page"
-                component={Login}
-              />
-              <Route
-                exact
-                path="/register"
-                name="Register Page"
-                component={Dashboard}
-              />
-              <Route
-                exact
-                path="/"
-                name="Landing"
-                component={Dashboard}
-              />
-            </div>
-          </div>
-        </div>
-      </BrowserRouter>
-    </div>
-  );
+  const {authAttempted, auth} = useAuth()
+  console.log("auth attempted", authAttempted, auth);
+  if(!authAttempted) return null
+  return <div>{auth ? <LoggedIn /> : <LoggedOut />}</div>
 }
 
-export default App;
+export default () => (
+  <AppStateProvider reducer={appReducer} initialState={initialState}>
+    <App />
+  </AppStateProvider>
+)

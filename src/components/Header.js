@@ -1,9 +1,22 @@
-import React from 'react';
-import { useStore } from '../store/store';
+import React, { useEffect } from 'react';
+import { fetchDoc, logout, login, signup } from "../actions/actions"
+import { useAppState } from "../context/app-state"
 
 const Header = () => {
-  const [state, dispatch] = useStore();
-  
+  const [{ auth, user }, dispatch] = useAppState()
+  console.log(auth);
+  console.log("user", user);
+   
+  useEffect(() => {
+    if (!user && auth) {
+      fetchDoc(`users/${auth.uid}`).then(user => {
+        // okay to dispatch even if unmounted, might as well
+        // get it in the app state cache
+        dispatch({ type: "LOAD_USER", user })
+      })
+    }
+  }, [user, auth, auth?.uid, dispatch])
+
   return (
     <nav>
     <div className="nav-wrapper" style={{marginLeft:10}}>
@@ -11,12 +24,12 @@ const Header = () => {
         Life on Track
       </a>
       <ul className="right">
-      { state.token ? 
+      { user ? 
         <li>
-        <div>{`Hi, ${state.user.displayName}`}</div>
+        <div>{`Hi, ${user.displayName}`}</div>
         </li> :
         <li>
-          <a>Login with Google</a>
+          <a onClick={logout}>Login with Google</a>
         </li>
       }
       </ul>

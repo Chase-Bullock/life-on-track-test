@@ -1,5 +1,5 @@
 import { db, auth } from '../Firebase';
-
+export * from './userActions';
 
 const setUser = (user) => {
     return {
@@ -37,6 +37,10 @@ export const fetchTaskTypes = limitCalls(function fetchTaskTypes(
       callback(getDocsFromSnapshot(snapshot))
     )
   })
+
+  export function onAuthStateChanged(callback) {
+    return auth().onAuthStateChanged(callback)
+  }
   
   function limitCalls(fn, limit = 20) {
     let calls = 0
@@ -66,4 +70,11 @@ function getDocsFromSnapshot(snapshot) {
   function getDataFromDoc(doc) {
     return { ...doc.data(), id: doc.id }
   }
+  
+  export const fetchDoc = limitCalls(function fetchDoc(path) {
+    return db
+      .doc(path)
+      .get()
+      .then(doc => doc.data())
+  })
   
