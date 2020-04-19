@@ -13,7 +13,6 @@ export function DateFields({
 }) {
   const date = controlledValue || defaultValue
   const context = { date, onChange }
-  console.log(context);
   return <Context.Provider value={context} children={children} />
 }
 

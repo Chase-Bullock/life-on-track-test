@@ -1,30 +1,22 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { BrowserRouter, Route } from "react-router-dom";
 
-
-import Header from './Header';
-import Login from './Login';
 import Dashboard from './Dashboard';
+import Landing from './Landing';
+import { Container } from "@material-ui/core";
 
-const LoggedOut = () => {
+
+const LoggedOut = (props) => {
   return (
-    <div className="LoggedOut">
+    <Fragment>
       <BrowserRouter>
         <div>
-          <Header />
-          <div className="container">
-            <div className="row">
+          <Container maxWidth="lg">
               <Route
                 exact
                 path="/"
-                name="Login Page"
-                component={Login}
-              />
-              <Route
-                exact
-                path="/register"
                 name="Register Page"
-                component={Dashboard}
+                component={Landing}
               />
               <Route
                 exact
@@ -32,11 +24,10 @@ const LoggedOut = () => {
                 name="Landing"
                 component={Dashboard}
               />
-            </div>
-          </div>
+          </Container>
         </div>
       </BrowserRouter>
-    </div>
+    </Fragment>
   )
 }
 

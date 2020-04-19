@@ -1,48 +1,26 @@
 import { db, auth } from '../Firebase';
 export * from './userActions';
+export * from './activityTypeActions';
 
-const setUser = (user) => {
-    return {
-        type: 'LOGIN',
-        payload: user
-    }
-}
+// const setUser = (user) => {
+//     return {
+//         type: 'LOGIN',
+//         payload: user
+//     }
+// }
 
-function error(err){
-    return {
-        type: 'ERROR',
-        payload: err
-    }
-}
-
-
-export const addNewTaskType = async (newTask)  =>  {
-    return db
-    .collection("taskType")
-    .add({ createdAt: Date.now(), ...newTask })
-    .then(ref => ref.get())
-    .then(doc => ({ ...doc.data(), id: doc.id }))
-}
-
-
-export const fetchTaskTypes = limitCalls(function fetchTaskTypes(
-    uid,
-    callback
-  ) {
-    let collection = db
-      .collection("taskType")
-      .orderBy("createdAt")
-      .where("uid", "==", uid)
-    return collection.onSnapshot(snapshot =>
-      callback(getDocsFromSnapshot(snapshot))
-    )
-  })
+// function error(err){
+//     return {
+//         type: 'ERROR',
+//         payload: err
+//     }
+// }
 
   export function onAuthStateChanged(callback) {
     return auth().onAuthStateChanged(callback)
   }
   
-  function limitCalls(fn, limit = 20) {
+export function limitCalls(fn, limit = 20) {
     let calls = 0
     return (...args) => {
       calls++
@@ -59,7 +37,7 @@ export const fetchTaskTypes = limitCalls(function fetchTaskTypes(
     }
   }
 
-function getDocsFromSnapshot(snapshot) {
+export function getDocsFromSnapshot(snapshot) {
     const docs = []
     snapshot.forEach(doc => {
       docs.push(getDataFromDoc(doc))
@@ -71,10 +49,11 @@ function getDocsFromSnapshot(snapshot) {
     return { ...doc.data(), id: doc.id }
   }
   
-  export const fetchDoc = limitCalls(function fetchDoc(path) {
+export const fetchDoc = limitCalls(function fetchDoc(path) {
     return db
       .doc(path)
       .get()
       .then(doc => doc.data())
   })
+  
   

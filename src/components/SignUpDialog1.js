@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react"
 import VisuallyHidden from "@reach/visually-hidden"
 import { signup } from "../actions/actions";
-import Button from "../UI/Button";
+import Button from "../UI/LifeButton";
 import { DateFields, MonthField, DayField, YearField } from "../utils/DateFields";
 
 function TextInput({ id, label, type = "text" }) {
@@ -15,7 +15,7 @@ function TextInput({ id, label, type = "text" }) {
   )
 }
 
-export default function SignupForm() {
+export default function SignUpDialog() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const [startDate, setStartDate] = useState(new Date("March 1, 2019"))

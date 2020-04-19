@@ -1,53 +1,45 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import * as action from '../actions/actions';
+import React, { Fragment } from "react";
+import { useActivityTypes } from "../useTaskTypes";
+import { useAppState } from "../context/app-state";
+import ActivityType from "./ActivityType";
+import {
+  Grid,
+  makeStyles,
+} from "@material-ui/core";
+import MyCalendar from "./MyCalendar";
 
-import { useStore } from '../store/store';
-import Card from '../UI/Card';
-import * as CONST from '../constants';
-import  {useTaskTypes } from '../useTaskTypes';
-import { addTaskType } from '../useTaskTypes';
-
-
-
+const useStyles = makeStyles(() => ({
+  root: {
+    flexGrow: 1,
+  },
+}));
 
 const Dashboard = () => {
-  const [state, dispatch] = useStore();
-  const taskTypes = useTaskTypes(1);
-
-  const history = useHistory();
-
-  console.log(taskTypes)
-
-
-  const loginHandler = () => {
-    dispatch(CONST.LOGIN)
-    history.push("/");
-  };
-
-  const addNewTaskType = () => {
-    const newTaskType = {
-      uid: 1,
-      taskName: "Game",
-      importance: 1,
-      satisfaction: 3
-    }
-    addTaskType(newTaskType);
-  }
+  const styles = useStyles();
+  const [{ user }] = useAppState();
+  const activityTypes = useActivityTypes(user.uid);
 
   return (
-    <div>
-      <div className="row">
-        {
-          taskTypes && taskTypes.map(task => {
-            console.log(task)
-            return <Card className="col s2">{task.taskName}</Card>
-          })
-        }
-      </div>
-    </div>
+    <Fragment>
+      <MyCalendar />
+      <Grid container className={styles.root} spacing={2}>
+        {activityTypes &&
+          activityTypes.map((activityType) => {
+            return (
+              <Grid key={activityType.id} item xs={4}>
+                <ActivityType
+                  passedInActivityType={activityType}
+                  uid={user.uid}
+                />
+              </Grid>
+            );
+          })}
+        <Grid item xs={3}>
+          <ActivityType uid={user.uid} />
+        </Grid>
+      </Grid>
+    </Fragment>
   );
-}
-
+};
 
 export default Dashboard;

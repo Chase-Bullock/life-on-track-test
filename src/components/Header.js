@@ -1,42 +1,73 @@
-import React, { useEffect } from 'react';
-import { fetchDoc, logout, login, signup } from "../actions/actions"
-import { useAppState } from "../context/app-state"
+import React, { useEffect } from "react";
+import { fetchDoc, logout } from "../actions/actions";
+import { useAppState } from "../context/app-state";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  makeStyles,
+  IconButton,
+  Typography,
+  ButtonGroup,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 
-const Header = () => {
-  const [{ auth, user }, dispatch] = useAppState()
-  console.log(auth);
-  console.log("user", user);
-   
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
+const Header = (props) => {
+  const [{ auth, user }, dispatch] = useAppState();
+  const { onSignInClick, onSignUpClick } = props;
+  const classes = useStyles();
+
   useEffect(() => {
     if (!user && auth) {
-      fetchDoc(`users/${auth.uid}`).then(user => {
+      fetchDoc(`users/${auth.uid}`).then((user) => {
         // okay to dispatch even if unmounted, might as well
         // get it in the app state cache
-        dispatch({ type: "LOAD_USER", user })
-      })
+        dispatch({ type: "LOAD_USER", user });
+      });
     }
-  }, [user, auth, auth?.uid, dispatch])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, auth, auth?.uid, dispatch]);
 
   return (
-    <nav>
-    <div className="nav-wrapper" style={{marginLeft:10}}>
-      <a className="left brand-logo">
-        Life on Track
-      </a>
-      <ul className="right">
-      { user ? 
-        <li>
-        <div>{`Hi, ${user.displayName}`}</div>
-        </li> :
-        <li>
-          <a onClick={logout}>Login with Google</a>
-        </li>
-      }
-      </ul>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            Life on Track
+          </Typography>
+          { !user ? (
+          <ButtonGroup color="inherit">
+            <Button onClick={onSignUpClick}>Sign up</Button>
+            <Button onClick={onSignInClick}>Sign in</Button>
+          </ButtonGroup>
+          )
+             :
+            <Button color="inherit" onClick={logout}>Sign out</Button>
+          }
+        </Toolbar>
+      </AppBar>
     </div>
-    </nav>
   );
-}
+};
 
 export default Header;
-

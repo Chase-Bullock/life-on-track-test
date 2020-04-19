@@ -1,16 +1,24 @@
 import React, { useEffect, Fragment } from "react"
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import { fetchDoc } from "../actions/actions"
 import { useAppState } from "../context/app-state"
-import Header from './Header';
 
-import Login from './Login';
 import Dashboard from "./Dashboard";
+import { Container, makeStyles } from "@material-ui/core";
 
-const LoggedIn = () => {
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    marginTop: theme.spacing(4)
+  }
+}));
+
+const LoggedIn = (props) => {
   const [{ auth, user }, dispatch] = useAppState()
-
+  const styles = useStyles();
+  
   useEffect(() => {
     if (!user) {
       fetchDoc(`users/${auth.uid}`).then(user => {
@@ -23,22 +31,23 @@ const LoggedIn = () => {
 
   return (
     <Fragment>
-      <Header />
       <BrowserRouter>
-          <div className="container">
-            <div className="row">
-              <Route
-                exact
-                path="/"
-                name="Landing"
-                component={Dashboard}
-              />
-            </div>
+        <Container maxWidth="md">
+          <div className={styles.root}>
+          { user &&
+            <Route
+              exact
+              path="/"
+              name="Landing"
+              component={Dashboard}
+            />
+          }
           </div>
+        </Container>
       </BrowserRouter>
     </Fragment>
   )
-  
+
 }
 
 export default LoggedIn;

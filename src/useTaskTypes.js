@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react"
-import { fetchTaskTypes, addNewTaskType } from './actions/actions';
+import { fetchActivityTypes, addNewActivityTypeService, updateActivityTypeService } from './actions/actions';
 
 const cache = {}
 
-export function useTaskTypes(uid, { listen } = { listen: true }) {
+export function useActivityTypes(uid, { listen } = { listen: true }) {
   const cached = cache[uid]
-  const [taskTypes, setTaskTypes] = useState(cached)
+  const [activities, setActivities] = useState(cached)
   useEffect(() => {
     if (listen) {
-      return fetchTaskTypes(uid, taskTypes => {
+      return fetchActivityTypes(uid, taskTypes => {
         cache[uid] = taskTypes
-        setTaskTypes(taskTypes)
+        setActivities(taskTypes)
       })
     }
   }, [uid, listen])
-  return taskTypes
+  return activities
 }
 
-export async function addTaskType(newTaskType) {
-  addNewTaskType(newTaskType);
+export async function addActivityTypes(newActivityType) {
+  console.log("useTaskTypes", newActivityType)
+  addNewActivityTypeService(newActivityType);
+  return
+}
+
+export async function updateActivityTypes(updatedActivityType) {
+  console.log("updateTaskTypes", updatedActivityType)
+  updateActivityTypeService(updatedActivityType);
   return
 }
