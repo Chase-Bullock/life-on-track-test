@@ -9,19 +9,28 @@ import {
   IconButton,
   Typography,
   ButtonGroup,
+  Grid,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawerContainer: {
+    overflow: "auto",
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
   },
   title: {
-    flexGrow: 1,
-  },
+    flexGrow : 1
+  }
 }));
 
 const Header = (props) => {
@@ -37,33 +46,26 @@ const Header = (props) => {
         dispatch({ type: "LOAD_USER", user });
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, auth, auth?.uid, dispatch]);
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Life on Track
-          </Typography>
-          { !user ? (
-          <ButtonGroup color="inherit">
-            <Button onClick={onSignUpClick}>Sign up</Button>
-            <Button onClick={onSignInClick}>Sign in</Button>
-          </ButtonGroup>
-          )
-             :
-            <Button color="inherit" onClick={logout}>Sign out</Button>
-          }
+            <Typography variant="h6" className={classes.title}>
+              Life on Track
+            </Typography>
+            {!user ? (
+              <ButtonGroup color="inherit">
+                <Button onClick={onSignUpClick}>Sign up</Button>
+                <Button onClick={onSignInClick}>Sign in</Button>
+              </ButtonGroup>
+            ) : (
+              <Button color="inherit" onClick={logout}>
+                Sign out
+              </Button>
+            )}
         </Toolbar>
       </AppBar>
     </div>

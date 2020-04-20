@@ -88,6 +88,7 @@ const AddActivity = (props) => {
           <TextField
             fullWidth
             onChange={updateActivityNameField}
+            required
             type="text"
             placeholder="Activity Name"
             label="Activity Name"
@@ -98,6 +99,7 @@ const AddActivity = (props) => {
           <TextField
             fullWidth
             onChange={updateImportanceField}
+            required
             type="number"
             placeholder="1 - 5"
             label="How important is this to you?"
@@ -108,6 +110,7 @@ const AddActivity = (props) => {
           <TextField
             fullWidth
             onChange={updateSatisfactionField}
+            required
             type="number"
             placeholder="1 - 5"
             label="Satisfaction from activity"

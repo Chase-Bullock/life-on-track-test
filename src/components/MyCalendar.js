@@ -21,11 +21,22 @@ const localizer = momentLocalizer(moment);
 //   });
 
 const MyCalendar = () => {
+  const today = new Date();
   const events = [
     {
-      title: "string",
-      start: new Date(),
-      end: new Date(),
+      title: "Game",
+      start: new Date().setHours(9),
+      end: new Date().setHours(12),
+    },
+    {
+      title: "Develop 4:30hrs",
+      start: today.setHours(12),
+      end: today.setHours(4),
+    },
+    {
+      title: "Game",
+      start: new Date().setDate(today.getDate() + 1),
+      end: new Date().setDate(today.getDate() + 1),
     },
   ];
 
