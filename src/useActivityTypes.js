@@ -18,7 +18,7 @@ export function useActivityTypes(uid, { listen } = { listen: true }) {
 }
 
 export async function addActivityTypes(newActivityType) {
-  console.log("useTaskTypes", newActivityType)
+  delete newActivityType.id;
   addNewActivityTypeService(newActivityType);
   return
 }

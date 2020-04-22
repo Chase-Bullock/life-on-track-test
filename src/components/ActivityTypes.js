@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { useActivityTypes } from "../useTaskTypes";
+import { useActivityTypes } from "../useActivityTypes";
 import { useAppState } from "../context/app-state";
 import ActivityType from "./ActivityType";
 import {
@@ -7,6 +7,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import MyCalendar from "./MyCalendar";
+
 
 const useStyles = makeStyles(() => ({
   root: {

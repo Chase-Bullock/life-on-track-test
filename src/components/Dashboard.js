@@ -1,29 +1,27 @@
 import React, { Fragment } from "react";
-import { useActivityTypes } from "../useTaskTypes";
+import { useActivityTypes } from "../useActivityTypes";
 import { useAppState } from "../context/app-state";
 import ActivityType from "./ActivityType";
-import {
-  Grid,
-  makeStyles,
-} from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import MyCalendar from "./MyCalendar";
-
-const useStyles = makeStyles(() => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
-
+import { sizing } from '@material-ui/system';
 const Dashboard = () => {
-  const styles = useStyles();
   const [{ user }] = useAppState();
   const activityTypes = useActivityTypes(user.uid);
 
   return (
     <Fragment>
-      <MyCalendar />
-      <Grid container className={styles.root} spacing={2}>
-        {activityTypes &&
+      {/* <MyCalendar /> */}
+      <Grid
+        container
+        justify="center"
+        spacing={2}
+        minHeight={1000}
+      >
+        <Grid item>
+          <Typography>Dashboard goes here :)</Typography>
+        </Grid>
+        {/* {activityTypes &&
           activityTypes.map((activityType) => {
             return (
               <Grid key={activityType.id} item xs={4}>
@@ -36,7 +34,7 @@ const Dashboard = () => {
           })}
         <Grid item xs={3}>
           <ActivityType uid={user.uid} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Fragment>
   );

@@ -5,10 +5,12 @@ import {
   Grid,
   makeStyles,
   withStyles,
+  Typography,
 } from "@material-ui/core";
 import Card from "../UI/Card";
+import { SECONDARY_LIGHT } from "../constants";
 
-import { addActivityTypes, updateActivityTypes } from "../useTaskTypes";
+import { addActivityTypes, updateActivityTypes } from "../useActivityTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +45,7 @@ const ActivityType = (props) => {
     importance: passedInActivityType?.importance || "",
     satisfaction: passedInActivityType?.satisfaction || "",
     uid: props.uid,
-    id: passedInActivityType?.id || null,
+    id: passedInActivityType?.id,
   });
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -76,6 +78,20 @@ const ActivityType = (props) => {
       ...activityType,
       satisfaction,
     });
+  };
+
+  const validationSubmission = (functionToCall) => {
+    if (
+      (activityType.activityName !== "" || null) &&
+      (activityType.importance !== "" || null || 0) &&
+      (activityType.satisfaction !== "" || null || 0)
+    ) {
+      setError("");
+      functionToCall();
+      setEdit(false);
+    } else {
+      setError({message:"Please fill out all fields"});
+    }
   };
 
   const addNewActivityType = async () => {
@@ -126,17 +142,15 @@ const ActivityType = (props) => {
         justify="space-between"
         alignItems="stretch"
       >
+      <div style={{height:25}}>
         {error && (
-          <div>
-            <p>Oops, there was an error logging you in.</p>
-            <p>
-              <i>{error.message}</i>
-            </p>
-          </div>
+            <Typography color='error' variant="caption">{error.message}</Typography>
         )}
+        </div>
         <Grid item xs={12}>
           <DarkerDisabledTextField
             fullWidth
+            error={error && !activityType.importance ? true : false}
             onChange={updateActivityNameField}
             disabled={!props.passedInActivityType ? false : edit ? false : true}
             type="text"
@@ -148,8 +162,10 @@ const ActivityType = (props) => {
         <Grid item xs={12}>
           <DarkerDisabledTextField
             fullWidth
+            error={error && !activityType.importance ? true : false}
             onChange={updateImportanceField}
             disabled={!props.passedInActivityType ? false : edit ? false : true}
+            inputProps={{ min: "1", max: "5", step: "1" }}
             type="number"
             placeholder="1 - 5"
             label={
@@ -163,7 +179,9 @@ const ActivityType = (props) => {
         <Grid item xs={12}>
           <DarkerDisabledTextField
             fullWidth
+            error={error && !activityType.importance ? true : false}
             disabled={!props.passedInActivityType ? false : edit ? false : true}
+            inputProps={{ min: "1", max: "5", step: "1" }}
             onChange={updateSatisfactionField}
             type="number"
             placeholder="1 - 5"
@@ -192,7 +210,7 @@ const ActivityType = (props) => {
                 className={styles.button}
                 variant="contained"
                 color="primary"
-                onClick={updateActivityHandler}
+                onClick={() => validationSubmission(updateActivityHandler)}
               >
                 <span>{loading ? "Loading..." : "Done"}</span>
               </Button>
@@ -207,7 +225,7 @@ const ActivityType = (props) => {
               onClick={
                 props.passedInActivityType
                   ? toggleEditActivity
-                  : addNewActivityType
+                  : () => validationSubmission(addNewActivityType)
               }
             >
               <span>

@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import Card from "../UI/Card";
 
-import { addActivityTypes, updateActivityTypes } from "../useTaskTypes";
+import { addActivityTypes, updateActivityTypes } from "../useActivityTypes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +34,7 @@ const DarkerDisabledTextField = withStyles({
   },
 })(TextField);
 
-const AddActivity = (props) => {
+const Activity = (props) => {
   const { passedInActivityType } = props;
 
   const styles = useStyles();

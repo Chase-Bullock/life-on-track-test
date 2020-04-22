@@ -10,6 +10,7 @@ import appReducer, { initialState } from "../appReducer";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import Header from "./Header";
 import MyDrawer from "./MyDrawer";
+import {PRIMARY, SECONDARY} from '../constants';
 
 const App = () => {
   const { authAttempted, auth } = useAuth();
@@ -17,16 +18,17 @@ const App = () => {
   const [signUpDialog, setSignUpDialog] = useState(false);
   const prefersDarkMode = false;
 
+
   const theme = React.useMemo(
     () =>
       createMuiTheme({
         palette: {
           primary: {
-            main: "#f57c00",
+            main: PRIMARY,
             contrastText: "#ffffff",
           },
           secondary: {
-            main: "#1a237e",
+            main: SECONDARY
           },
           type: prefersDarkMode ? "dark" : "light",
         },

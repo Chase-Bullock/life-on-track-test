@@ -60,7 +60,7 @@ export default function MyDrawer() {
   }
 
   function dashboardNavHandler() {
-    history.push("/dashboard");
+    history.push("/");
   }
 
   return (

@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
-import { SECONDARY_LIGHT } from "../constants";
+import { SECONDARY_LIGHT, PRIMARY, PRIMARY_LIGHT } from "../constants";
+import "../UI/calendar.css";
+import { useActivities } from "../useActivity";
+import ActivityDialog from "./ActivityDialog";
+import { useAppState } from "../context/app-state";
 
 const localizer = momentLocalizer(moment);
 
@@ -20,32 +24,38 @@ const localizer = momentLocalizer(moment);
 //     },
 //   });
 
-const MyCalendar = () => {
-  const today = new Date();
-  const events = [
-    {
-      title: "Game",
-      start: new Date().setHours(9),
-      end: new Date().setHours(12),
-    },
-    {
-      title: "Develop 4:30hrs",
-      start: today.setHours(12),
-      end: today.setHours(4),
-    },
-    {
-      title: "Game",
-      start: new Date().setDate(today.getDate() + 1),
-      end: new Date().setDate(today.getDate() + 1),
-    },
-  ];
+const MyCalendar = (props) => {
+  const [activityDialog, setActivityDialog] = useState(false);
+  const [event, setEvent] = useState();
+  const [events, setEvents] = useState();
+  const [{ user }] = useAppState();
+  const activites = useActivities(user.uid);
+  console.log(activites);
+
+  useEffect(() => {
+    const events = activites?.map(activity => {
+      return {
+        title: activity.activityName,
+        start: activity.start.toDate(),
+        end: activity.end.toDate()
+      }
+    })
+
+    setEvents(events);
+  },[activites])
+  
+  const activityDialogHandler = (passedEvent) => {
+    console.log("passedEvent", passedEvent)
+    setActivityDialog(true);
+    const start = passedEvent?.start || passedEvent?.slots[0] ;
+    const end = passedEvent?.end || passedEvent.slots.pop();
+    setEvent({start, end});
+  }
 
   const eventStyleGetter = (event, start, end, isSelected) => {
-    console.log(event);
     var style = {
-      backgroundColor: "#1a237e",
+      backgroundColor: PRIMARY_LIGHT,
       borderRadius: "0px",
-      opacity: 0.8,
       color: "white",
       border: "0px",
       display: "block",
@@ -55,16 +65,31 @@ const MyCalendar = () => {
     };
   };
 
+  const dialogProps = {
+      event: event,
+      open: activityDialog,
+      toggle: () => setActivityDialog(!activityDialog),
+  }
+
   return (
-    <>
+    <>{ events &&
       <Calendar
         localizer={localizer}
-        onSelectEvent={(event, syntheticEvent) => alert(JSON.stringify(event))}
+        selectable
+        onSelectSlot={(e) => activityDialogHandler(e)}
+        onSelectEvent={(event) => activityDialogHandler(event)}
         startAccessor="start"
         events={events}
         endAccessor="end"
-        style={{ height: 600 }}
+        style={{ height: 800 }}
         eventPropGetter={eventStyleGetter}
+        defaultView={"day"}
+      />
+    }
+      <ActivityDialog
+        dialogProps={dialogProps}
+        user={user}
+        {...dialogProps.props}
       />
     </>
   );

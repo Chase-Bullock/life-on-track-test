@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 
 import * as CONST from "../constants";
-import { useActivityTypes as useActivityTypes, addActivityTypes } from "../useTaskTypes";
+import { useActivityTypes as useActivityTypes, addActivityTypes } from "../useActivityTypes";
 import { useAppState } from "../context/app-state";
 import AddActivity from "./AddTaskType";
 import Activity from "./Activity";

@@ -31,20 +31,18 @@ const LoggedIn = (props) => {
     }
   }, [user, auth.uid, dispatch]);
 
+  console.log(user);
   return (
     <Fragment>
       <BrowserRouter>
         <MyDrawer />
         <Container maxWidth="md">
           <div className={styles.root}>
-            {user && (
+            {user != null && (
               <Fragment>
-                <Route
-                  exact
-                  path="/calendar"
-                  name="My Day"
-                  component={MyCalendar}
-                />
+                <Route exact path="/calendar">
+                  <MyCalendar />
+                </Route>
                 <Route
                   exact
                   path="/activityTypes"
@@ -53,7 +51,7 @@ const LoggedIn = (props) => {
                 />
                 <Route
                   exact
-                  path="/dashboard"
+                  path="/"
                   name="Dashboard"
                   component={Dashboard}
                 />

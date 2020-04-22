@@ -1,6 +1,7 @@
 import { db, auth } from '../Firebase';
 export * from './userActions';
 export * from './activityTypeActions';
+export * from './activityActions';
 
 // const setUser = (user) => {
 //     return {

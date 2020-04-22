@@ -12,10 +12,9 @@ export const addNewActivityTypeService = async (newActivityType) => {
 
 export const updateActivityTypeService = async (updateActivityType) => {
   console.log(updateActivityType);
-  db.doc(`activityType/${updateActivityType.uid}`)
-    .add({ updatedAt: Date.now(), ...updateActivityType })
-    .then((ref) => ref.get())
-    .then((doc) => ({ ...doc.data(), id: doc.id }));
+  let activityType = db.doc(`activityType/${updateActivityType.id}`);
+  console.log('firebase', activityType)
+    activityType.update({ updatedAt: Date.now(), ...updateActivityType })
 };
 
 export const fetchActivityTypes = limitCalls(function fetchActivityTypes(
