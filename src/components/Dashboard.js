@@ -1,13 +1,6 @@
 import React, { Fragment } from "react";
-import { useActivityTypes } from "../useActivityTypes";
-import { useAppState } from "../context/app-state";
-import ActivityType from "./ActivityType";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
-import MyCalendar from "./MyCalendar";
-import { sizing } from '@material-ui/system';
+import { Grid, Typography } from "@material-ui/core";
 const Dashboard = () => {
-  const [{ user }] = useAppState();
-  const activityTypes = useActivityTypes(user.uid);
 
   return (
     <Fragment>
