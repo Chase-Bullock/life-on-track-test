@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9ecca4d03cb1d52cee8e23a244ce1bd0",
+    "revision": "a9576bb3b02698a5b549fc8af3f68303",
     "url": "/life-on-track/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/life-on-track/static/css/2.25b83785.chunk.css"
   },
   {
-    "revision": "7961bcfd14d6558efb42",
+    "revision": "2e11b8d6b9e3d4137391",
     "url": "/life-on-track/static/css/main.dade12ea.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/life-on-track/static/js/2.2ef4b0a6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "7961bcfd14d6558efb42",
-    "url": "/life-on-track/static/js/main.9ea0d942.chunk.js"
+    "revision": "2e11b8d6b9e3d4137391",
+    "url": "/life-on-track/static/js/main.c02b983d.chunk.js"
   },
   {
     "revision": "c523dcf7adc4f225017b",
