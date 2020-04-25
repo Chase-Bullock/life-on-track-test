@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/life-on-track/precache-manifest.2f2722a330ff540e274b3da058766352.js"
+  "/life-on-track/precache-manifest.d80925605c666f7e1fc2ce18f501ad7b.js"
 );
 
 self.addEventListener('message', (event) => {

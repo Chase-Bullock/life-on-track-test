@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/life-on-track/static/css/main.dade12ea.chunk.css",
-    "main.js": "/life-on-track/static/js/main.84dd08cb.chunk.js",
-    "main.js.map": "/life-on-track/static/js/main.84dd08cb.chunk.js.map",
+    "main.js": "/life-on-track/static/js/main.942e5aea.chunk.js",
+    "main.js.map": "/life-on-track/static/js/main.942e5aea.chunk.js.map",
     "runtime-main.js": "/life-on-track/static/js/runtime-main.bc525406.js",
     "runtime-main.js.map": "/life-on-track/static/js/runtime-main.bc525406.js.map",
     "static/css/2.25b83785.chunk.css": "/life-on-track/static/css/2.25b83785.chunk.css",
     "static/js/2.2ef4b0a6.chunk.js": "/life-on-track/static/js/2.2ef4b0a6.chunk.js",
     "static/js/2.2ef4b0a6.chunk.js.map": "/life-on-track/static/js/2.2ef4b0a6.chunk.js.map",
     "index.html": "/life-on-track/index.html",
-    "precache-manifest.2f2722a330ff540e274b3da058766352.js": "/life-on-track/precache-manifest.2f2722a330ff540e274b3da058766352.js",
+    "precache-manifest.d80925605c666f7e1fc2ce18f501ad7b.js": "/life-on-track/precache-manifest.d80925605c666f7e1fc2ce18f501ad7b.js",
     "service-worker.js": "/life-on-track/service-worker.js",
     "static/css/2.25b83785.chunk.css.map": "/life-on-track/static/css/2.25b83785.chunk.css.map",
     "static/css/main.dade12ea.chunk.css.map": "/life-on-track/static/css/main.dade12ea.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.25b83785.chunk.css",
     "static/js/2.2ef4b0a6.chunk.js",
     "static/css/main.dade12ea.chunk.css",
-    "static/js/main.84dd08cb.chunk.js"
+    "static/js/main.942e5aea.chunk.js"
   ]
 }
