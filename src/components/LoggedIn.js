@@ -34,7 +34,7 @@ const LoggedIn = (props) => {
   console.log(user);
   return (
     <Fragment>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <MyDrawer />
         <Container maxWidth="md">
           <div className={styles.root}>

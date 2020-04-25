@@ -10,19 +10,19 @@ import MyDrawer from "./MyDrawer";
 const LoggedOut = (props) => {
   return (
     <Fragment>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
       <MyDrawer />
         <div>
           <Container maxWidth="lg">
               <Route
                 exact
-                path="/"
+                path="/register"
                 name="Register Page"
                 component={Landing}
               />
               <Route
                 exact
-                path="/dashboard"
+                path="/"
                 name="Landing"
                 component={Dashboard}
               />
