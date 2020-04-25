@@ -47,14 +47,16 @@ const SignInDialog = (props) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
+    console.log(email, password);
     try {
-      await login(emailRef.current.value, passwordRef.current.value);
+      await login(email, password);
+      dialogProps.toggle();
     } catch (error) {
       setLoading(false);
       setError(error);
@@ -64,7 +66,6 @@ const SignInDialog = (props) => {
   const handleShowPassword = (event) => {
     setShowPassword(event.target.checked);
   };
-
 
   return (
     <Dialog
@@ -112,7 +113,8 @@ const SignInDialog = (props) => {
                   <TextField
                     autoFocus
                     fullWidth
-                    ref={emailRef}
+                    value={email}
+                    onChange={event => setEmail(event.currentTarget.value)}
                     id="login:email"
                     placeholder="you@example.com"
                     type="text"
@@ -122,7 +124,8 @@ const SignInDialog = (props) => {
                 <Grid item xs>
                   <TextField
                     fullWidth
-                    ref={passwordRef}
+                    value={password}
+                    onChange={event => setPassword(event.currentTarget.value)}
                     id="login:password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
@@ -147,7 +150,7 @@ const SignInDialog = (props) => {
         </form>
         <DialogActions style={{ justifyContent: "space-between" }}>
           <Link variant="caption" component="button" onClick={dialogProps?.switch}>Register </Link>
-          <Button variant="contained" color="primary" type="submit">
+          <Button variant="contained" color="primary" onClick={handleLogin}>
             <span>{loading ? "Loading..." : "Login"}</span>
           </Button>
         </DialogActions>

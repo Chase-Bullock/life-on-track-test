@@ -4,7 +4,6 @@ const Dashboard = () => {
 
   return (
     <Fragment>
-      {/* <MyCalendar /> */}
       <Grid
         container
         justify="center"
@@ -14,20 +13,6 @@ const Dashboard = () => {
         <Grid item>
           <Typography>Dashboard goes here :)</Typography>
         </Grid>
-        {/* {activityTypes &&
-          activityTypes.map((activityType) => {
-            return (
-              <Grid key={activityType.id} item xs={4}>
-                <ActivityType
-                  passedInActivityType={activityType}
-                  uid={user.uid}
-                />
-              </Grid>
-            );
-          })}
-        <Grid item xs={3}>
-          <ActivityType uid={user.uid} />
-        </Grid> */}
       </Grid>
     </Fragment>
   );
