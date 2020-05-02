@@ -17,11 +17,18 @@ import {
   Button,
   Select,
   MenuItem,
+  InputLabel,
+  FormControl,
 } from "@material-ui/core";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+  TimePicker
+} from "@material-ui/pickers";
 import { addActivity, updateActivity } from "../useActivity";
 import { useActivityTypes } from "../useActivityTypes";
 import { useAppState } from "../context/app-state";
-
+import DateFnsUtils from "@date-io/date-fns";
 import moment from "moment";
 
 const styles = (theme) => ({
@@ -58,11 +65,12 @@ const ActivityDialog = (props) => {
 
   useEffect(() => {
     setActivity({
-      end: moment(dialogProps?.event?.end).format("hh:mm"),
-      start: moment(dialogProps?.event?.start).format("hh:mm"),
+      end: moment(dialogProps?.event?.end),
+      date: moment(dialogProps?.event?.start),
+      start: moment(dialogProps?.event?.start),
       satisfaction: dialogProps?.event?.satisfaction || null,
       activityName: dialogProps?.event?.title,
-      uid: user.uid
+      uid: user.uid,
     });
   }, [user, dialogProps]);
 
@@ -70,20 +78,38 @@ const ActivityDialog = (props) => {
 
   const updateValue = (event) => {
     setActivity({ ...activity, [event.target.id]: event.target.value });
-    console.log(activity);
+  };
+
+  const updateStartValue = (event) => {
+    setActivity({ ...activity, start: event });
+  };
+
+  const updateEndValue = (event) => {
+    setActivity({ ...activity, end: event });
+  };
+
+  const updateDateValue = (date) => {
+    setActivity({ ...activity, date: date });
   };
 
   const updateActivityName = (event) => {
     setActivity({ ...activity, activityName: event.target.value });
-    console.log(activity);
   };
 
   const addNewActivity = (newActivity) => {
-    newActivity.start = moment(newActivity.start, 'HH:mm').toDate();
-    newActivity.end = moment(newActivity.end, 'HH:mm').toDate();
+    if(newActivity.activityName != undefined) {
+    const startDate = moment(newActivity.start).set({'month': moment(newActivity.date).get('month'), 'date': moment(newActivity.date).get('date')})
+    const endDate = moment(newActivity.end).set({'month': moment(newActivity.date).get('month'), 'date': moment(newActivity.date).get('date')})
+    newActivity.start = startDate.toDate();
+    newActivity.end = endDate.toDate();
     addActivity(newActivity);
     dialogProps.toggle();
+    } else {
+      setError({message:"Choose an activity!"})
+    }
   };
+
+  console.log(activity);
 
   return (
     <Dialog
@@ -109,11 +135,8 @@ const ActivityDialog = (props) => {
       </DialogTitle>
       <DialogContent>
         {error && (
-          <div>
-            <p>Oops, there was an error adding the activity.</p>
-            <p>
+          <div style={{color: "red"}}>
               <i>{error.message}</i>
-            </p>
           </div>
         )}
         <DialogContentText>
@@ -126,52 +149,72 @@ const ActivityDialog = (props) => {
           <Grid item xs={12}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
+              <FormControl style={{width: "100%"}}>
+              <InputLabel style={{color: error ? 'red': null }} id="activityName">What did you do?</InputLabel>
                 <Select
                   fullWidth
                   onChange={updateActivityName}
                   value={activity.activityName}
-                  placeholder="What did you do?"
+                  error={error && !activity.activityName ? true : false}
                   id="activityName"
                   displayEmpty
                   label="Activity Type"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {activityTypes &&
                     activityTypes.map((activityType) => {
                       return (
-                        <MenuItem key={activityType.id} value={activityType.activityName}>
+                        <MenuItem
+                          key={activityType.id}
+                          value={activityType.activityName}
+                        >
                           {activityType.activityName}
                         </MenuItem>
                       );
                     })}
                 </Select>
+                </FormControl>
               </Grid>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid item xs={12}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    margin="normal"
+                    id="date"
+                    label="Date"
+                    value={activity.date}
+                    defaultValue={activity.start}
+                    onChange={(event) => updateDateValue(event)}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </Grid>
               <Grid item xs={6}>
-                <TextField
+                <TimePicker
                   fullWidth
-                  inputProps={{ step: 900 }}
-                  onChange={(event) => updateValue(event)}
+                  variant="inline"
                   value={activity.start}
+                  defaultValue={moment(activity.start)}
+                  onChange={event => updateStartValue(event)}
                   id="start"
-                  placeholder={moment().format("hh, mm, a")}
-                  type="time"
-                  label="Start"
+                  label="Start Time"
+                  minutesStep={5}
                 />
               </Grid>
               <Grid item xs={6}>
-                <TextField
+              <TimePicker
                   fullWidth
+                  variant="inline"
                   value={activity.end}
-                  inputProps={{ step: 900 }}
-                  onChange={(event) => updateValue(event)}
+                  defaultValue={activity.end}
+                  onChange={event => updateEndValue(event)}
                   id="end"
-                  placeholder={moment().format("hh")}
-                  type="time"
-                  label="End"
+                  label="End Time"
+                  minutesStep={5}
                 />
               </Grid>
+              </MuiPickersUtilsProvider>
               <Grid item xs={2}>
                 <TextField
                   fullWidth

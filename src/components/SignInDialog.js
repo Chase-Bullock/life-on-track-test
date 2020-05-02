@@ -53,7 +53,6 @@ const SignInDialog = (props) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     setLoading(true);
-    console.log(email, password);
     try {
       await login(email, password);
       dialogProps.toggle();
